@@ -1,11 +1,30 @@
+import Sidebar from "../Sidebar";
+import Body from "../Body";
+import MessageBlock from "../Message-block";
+import {useEffect, useState} from "react";
 
 
+const ChatPage = ({ socket }) => {
+    const [messages,setMessages] = useState([])
 
-const ChatPage = ({socket})=>{
-    return(
-        <div className="bg-blue-500 text-white p-4 rounded-lg">
-            <h1>Chat page</h1>
+    useEffect(() => {
+        socket.on('response',(data)=> setMessages([...messages,data]))
+    }, [socket,messages]);
+
+    return (
+        <div className="flex h-screen bg-gray-100">
+
+            <Sidebar />
+
+            <main className="flex-1 flex flex-col">
+                <div className="flex-1 overflow-y-auto">
+                    <Body messages={messages} />
+                </div>
+
+                <MessageBlock socket={socket} />
+            </main>
         </div>
-    )
-}
+    );
+};
+
 export default ChatPage

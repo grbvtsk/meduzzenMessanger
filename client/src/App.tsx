@@ -13,7 +13,7 @@ function App() {
     <div>
         <Routes>
             <Route path='/' element={<Login socket={socket}/>}/>
-            <Route path='/register' element={<Register/>}/>
+            <Route path='/register' element={<Register socket={socket}/>}/>
 
             <Route path='/chat' element={<ChatPage socket={socket}/>}/>
         </Routes>

@@ -25,7 +25,10 @@ app.use("/api/auth",authRouter)
 
 socketIO.on("connection",(socket)=>{
     console.log(`${socket.id} user connected`)
-    socketIO.on("disconnect",()=>{
+    socket.on('message',(data)=>{
+        socketIO.emit('response', data)
+    })
+    socket.on("disconnect",()=>{
         console.log(`${socket.id} disconnect`)
     })
 })
