@@ -17,7 +17,7 @@ app.get('api',(req,res)=>{
         message: "Hello"
     })
 })
-
+app.use(cors())
 app.use(express.json());
 app.use("/api/users", usersRouter);
 app.use("/api/auth",authRouter)

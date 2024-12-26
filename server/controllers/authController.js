@@ -2,13 +2,15 @@ require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const auth = require("../middlewares/auth")
 
 const prisma = new PrismaClient();
 
 exports.registerUser =  async (req,res)=>{
     try {
         const {name,password} = req.body;
+        console.log(name)
+        console.log(password)
+
         if (!(name && password)){
             res.status(400).send("All input is required");
         }
@@ -56,17 +58,19 @@ exports.loginUser = async (req,res)=>{
                 name: name
             }
         })
-        const token = jwt.sign(
-            { user_id: user.id, name },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: "2h",
-            }
-        );
-        user.token = token;
+        if (user && (await bcrypt.compare(password, user.password ))) {
+            const token = jwt.sign(
+                {user_id: user.id, name},
+                process.env.TOKEN_KEY,
+                {
+                    expiresIn: "2h",
+                }
+            );
+            user.token = token;
 
-        res.status(200).json(user);
-
+            res.status(200).json(user);
+        }
+        else res.status(400).send("Invalid Credentials");
     }catch (error){
         console.log(error)
     }
