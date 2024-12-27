@@ -2,7 +2,7 @@ import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login({socket}) {
+function Login() {
     const [formData, setFormData] = useState({
         name: "",
         password: "",

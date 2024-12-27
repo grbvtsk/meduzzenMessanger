@@ -1,33 +1,44 @@
 import {useState} from "react";
+import axios from "axios";
 
 
-const MessageBlock = ({socket}) => {
+const MessageBlock = ({recipientUser,loadMessages}) => {
 
     const [message,setMessage] = useState<String>('')
 
-    const handleSend = (e)=>{
+    const handleSend = async (e)=>{
         e.preventDefault()
+        const token = localStorage.getItem('token') || '';
         if(message.trim() && localStorage.getItem('user')){
-            socket.emit('message',{
-                text:message,
-                name:localStorage.getItem('user'),
-                id:`${socket.id}-${Math.random()}`,
-                socketID: socket.id
-            })
+            await axios.post(
+                'http://localhost:5000/api/messages',
+                {
+                    sender_name: localStorage.getItem('user'),
+                    content: message,
+                    recipient_name: recipientUser,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-access-token': token,
+                    },
+                }
+            );
         }
         setMessage('')
+        loadMessages();
     }
 
     return (
         <div className="bg-gray-200 p-2 shadow-md w-full">
-            <form className="flex items-center space-x-2"
-            onSubmit={handleSend}>
+            {recipientUser &&
+                <form className="flex items-center space-x-2" onSubmit={handleSend}>
                 <input
                     type="text"
                     placeholder="Type your message..."
                     className="flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={message}
-                    onChange={(e)=>setMessage(e.target.value)}
+                    onChange={(e) => setMessage(e.target.value)}
                 />
                 <button
                     type="submit"
@@ -36,6 +47,7 @@ const MessageBlock = ({socket}) => {
                     Send
                 </button>
             </form>
+            }
         </div>
     );
 };

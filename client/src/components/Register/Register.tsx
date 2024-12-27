@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 
-const Register = ({socket})=>{
+const Register = ()=>{
 
     const [formData, setFormData] = useState({
         name: "",

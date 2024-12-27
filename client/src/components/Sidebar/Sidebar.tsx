@@ -1,13 +1,42 @@
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 
-const Sidebar = () => {
+const Sidebar = ({setRecipientUser}) => {
+    const [users,setUsers] = useState([])
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token') || '';
+        const user = localStorage.getItem("user")
+
+        axios
+            .get('http://localhost:5000/api/users', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': token,
+                },
+            })
+            .then((response) => {
+                setUsers(response.data.filter(data=>data.name !== user));
+            })
+    }, []);
+
+    const handleSetRecipientUser = (user) =>{
+        setRecipientUser(user)
+    }
+
     return (
         <div className="w-64 h-screen bg-gray-100 p-4 shadow-md">
             <h4 className="text-xl font-bold mb-4">Users</h4>
             <ul className="space-y-2">
-                <li className="p-2 rounded hover:bg-gray-200 cursor-pointer">User 1</li>
-                <li className="p-2 rounded hover:bg-gray-200 cursor-pointer">User 2</li>
-                <li className="p-2 rounded hover:bg-gray-200 cursor-pointer">User 3</li>
+                {users.map(el=>{
+                    return <li className="p-2 rounded hover:bg-gray-200 cursor-pointer"
+                    key={el.id} onClick={() => handleSetRecipientUser(el.name)}
+                    >
+                        {el.name}
+                    </li>
+                })}
             </ul>
         </div>
     );

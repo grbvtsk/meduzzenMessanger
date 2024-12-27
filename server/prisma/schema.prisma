@@ -20,3 +20,11 @@ model User {
   password String
   token    String?
 }
+
+model Message {
+  id String @id @default(uuid())
+
+  sender_name    String @default("Unknown Sender")
+  content        String
+  recipient_name String @default("Unknown Recipient")
+}

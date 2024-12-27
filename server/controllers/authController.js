@@ -8,8 +8,6 @@ const prisma = new PrismaClient();
 exports.registerUser =  async (req,res)=>{
     try {
         const {name,password} = req.body;
-        console.log(name)
-        console.log(password)
 
         if (!(name && password)){
             res.status(400).send("All input is required");

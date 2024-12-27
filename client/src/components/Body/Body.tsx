@@ -1,52 +1,66 @@
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import SendMessageBlock from "./SendMessageBlock";
+import ReceiveMessageBlock from "./ReceiveMessageBlock";
+import HeaderUp from "./HeaderUp";
 
 
-const Body = ({messages}) => {
+const Body = ({messages, recipientUser,loadMessages}) => {
 
     const navigate = useNavigate()
 
     const handleLeave = () =>{
-        // localStorage.removeItem("user")
         navigate('/')
+    }
+
+    const handleDeleteMessage = async (id)=>{
+        const token = localStorage.getItem('token') || '';
+        await axios.delete(
+            `http://localhost:5000/api/messages/${id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': token,
+                },
+            }
+        );
+        loadMessages();
+    }
+    const handleEditMessage = (id,content)=>{
+        const token = localStorage.getItem('token') || '';
+        console.log(content)
     }
 
     return (
         <div className="flex flex-col h-screen">
-            <header className="sticky top-0 bg-gray-200 p-4 shadow-md z-10">
-                <div className="flex justify-between items-center">
-                    <div className="flex-1"></div>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                    onClick={handleLeave}>
-                        Exit chat
-                    </button>
-                </div>
-            </header>
-
+            <HeaderUp handleLeave={handleLeave} />
             <div className="flex-1 p-4 bg-gray-50 overflow-y-auto">
-                <div className="space-y-4">
+                {recipientUser && (
+                    <div className="space-y-4">
+                        {messages.map((element) => {
+                            if (element.sender_name === localStorage.getItem('user') &&
+                                element.recipient_name===recipientUser) {
+                                return (
+                                    <SendMessageBlock key={element.id} element={element}
+                                                      handleDeleteMessage={handleDeleteMessage}
+                                                      handleEditMessage={handleEditMessage} />
+                                );
+                            } else if (element.sender_name === recipientUser &&
+                                element.recipient_name === localStorage.getItem('user')) {
+                                return (
+                                    <ReceiveMessageBlock key={element.id} element={element}
+                                                         handleDeleteMessage={handleDeleteMessage}/>
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
+                    </div>
+                )}
 
-                    {messages.map(element=>
-                        element.name === localStorage.getItem('user') ? (
-                            <div className="flex flex-col items-end" key={element.id}>
-                                <p className="text-sm font-semibold text-gray-700">You</p>
-                                <div className="bg-green-100 p-3 rounded-md shadow-sm max-w-xs">
-                                    <p className="text-gray-800">{element.text}</p>
-                                </div>
-                            </div>
-                        ): (
-                            <div className="flex flex-col items-start" key={element.id}>
-                                <p className="text-sm font-semibold text-gray-700">{element.name}</p>
-                                <div className="bg-blue-100 p-3 rounded-md shadow-sm max-w-xs">
-                                    <p className="text-gray-800">{element.text}</p>
-                                </div>
-                            </div>
-                        )
-                    )}
-                </div>
             </div>
         </div>
     );
 };
-
 
 export default Body;
