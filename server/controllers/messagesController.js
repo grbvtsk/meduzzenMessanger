@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 exports.getAllMessages =   async (req, res) => {
     try {
-        const messages = await prisma.message.findMany()
+        const messages = await prisma.message.findMany({
+            orderBy: {
+                created_at: "asc",
+            },
+        })
         res.status(200).json(messages);
     } catch (error) {
         console.error(error);
@@ -60,16 +64,14 @@ exports.deleteMessage = async (req,res)=>{
 exports.updateMessage =  async (req,res) =>{
     try{
         const messageId = req.params.id
-        const {sender_name,content,recipient_name} = req.body;
+        const {content} = req.body;
 
         const updatedMessage = await prisma.message.update({
             where: {
                 id: messageId,
             },
             data: {
-                sender_name,
                 content,
-                recipient_name,
             },
         });
 

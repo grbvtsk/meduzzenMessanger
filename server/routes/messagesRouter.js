@@ -9,6 +9,6 @@ router
     .post(auth,messagesController.postMessage)
 router.route("/:id")
     .delete(auth,messagesController.deleteMessage)
-    .put(auth,messagesController.updateMessage)
+    .patch(auth,messagesController.updateMessage)
 
 module.exports = router;

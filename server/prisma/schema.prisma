@@ -24,7 +24,8 @@ model User {
 model Message {
   id String @id @default(uuid())
 
-  sender_name    String @default("Unknown Sender")
+  sender_name    String   @default("Unknown Sender")
   content        String
-  recipient_name String @default("Unknown Recipient")
+  recipient_name String   @default("Unknown Recipient")
+  created_at     DateTime @default(now())
 }
