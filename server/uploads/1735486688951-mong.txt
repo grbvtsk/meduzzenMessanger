@@ -1,2 +1,0 @@
-mongodb+srv://s2satlasvk:CIdTNn4L75cR3pfd@s2s-atlas-vk-cluster.lnt0dfu.mongodb.net/?retryWrites=true&w=majority&appName=s2s-atlas-vk-cluster
-I finished working on project by SoftServe IT Academy ,week ago. I and 10 other members participated in the project for a 1.5 months.  I gained valuable experience and new knowledge from this project. Well, I am always looking for opportunities for development and am ready to learn new things in order to be useful for the company.
