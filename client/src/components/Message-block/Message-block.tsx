@@ -67,14 +67,15 @@ const MessageBlock = ({recipientUser,loadMessages}) => {
                     />
                 </div>
 
-                {/* Кнопка відправлення */}
+                {message &&
                 <button
                     type="submit"
-                    onClick={(event)=>handleSend(event,message,recipientUser,setMessage,loadMessages)}
+                    onClick={(event)=>handleSend(event,message,recipientUser,setMessage,loadMessages,files,setFiles)}
                     className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm transition"
                 >
                     Send
                 </button>
+                }
             </div>
         </div>
 

@@ -28,4 +28,15 @@ model Message {
   content        String
   recipient_name String   @default("Unknown Recipient")
   created_at     DateTime @default(now())
+  files          File[]
+}
+
+model File {
+  id        String   @id @default(uuid())
+  filename  String
+  path      String
+  size      Int
+  mimetype  String
+  Message   Message? @relation(fields: [messageId], references: [id])
+  messageId String?
 }

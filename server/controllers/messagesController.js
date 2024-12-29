@@ -1,11 +1,12 @@
 const { PrismaClient } = require("@prisma/client");
-
+const fs = require("fs").promises;
 const prisma = new PrismaClient();
 
 
 exports.getAllMessages =   async (req, res) => {
     try {
         const messages = await prisma.message.findMany({
+            include: { files: true },
             orderBy: {
                 created_at: "asc",
             },
@@ -20,13 +21,24 @@ exports.getAllMessages =   async (req, res) => {
 exports.postMessage = async (req,res)=>{
     try {
         const {sender_name,content,recipient_name} = req.body;
-
+        const files = req.files.map((file) => ({
+            filename: file.filename,
+            path: file.path,
+            size: file.size,
+            mimetype: file.mimetype,
+        }));
         const message = await prisma.message.create({
             data:{
                 sender_name,
                 content,
-                recipient_name
-            }
+                recipient_name,
+                files: {
+                    create: files,
+                },
+            },
+            include: {
+                files: true,
+            },
         });
 
         res.status(201).json(message)
@@ -42,17 +54,31 @@ exports.deleteMessage = async (req,res)=>{
 
         const existingMessage = await prisma.message.findUnique({
             where: { id: messageId },
+            include: { files: true },
         });
 
         if (!existingMessage) {
             return res.status(404).json({ error: "Message not found" });
         }
-
-        const deletedMessage =  await prisma.message.delete({
-            where:{
-                id:messageId
+        for (const file of existingMessage.files) {
+            try {
+                await fs.unlink(file.path);
+            } catch (err) {
+                console.error(`Failed to delete file: ${file.path}`, err);
             }
-        })
+        }
+        const deletedMessage =  await prisma.$transaction([
+            prisma.file.deleteMany({
+                where: {
+                    messageId: messageId, // Видаляємо всі файли, пов'язані з повідомленням
+                },
+            }),
+            prisma.message.delete({
+                where: {
+                    id: messageId,
+                },
+            }),
+        ]);
 
         res.status(204).json(deletedMessage)
 

@@ -4,6 +4,7 @@ const cors = require("cors")
 const usersRouter = require("./routes/usersRouter")
 const authRouter = require("./routes/authRouter")
 const messagesRouter = require("./routes/messagesRouter")
+const path = require("path");
 const PORT = 5000
 
 // const http = require("http").Server(app)
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/api/users", usersRouter);
 app.use("/api/auth",authRouter)
 app.use("/api/messages",messagesRouter)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // socketIO.on("connection",(socket)=>{
