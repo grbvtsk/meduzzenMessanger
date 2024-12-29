@@ -1,9 +1,11 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {SidebarProps} from "../../types/SidebarProps.interface.ts";
+import {User} from "../../types/User.interface.ts";
 
 
-const Sidebar = ({setRecipientUser}) => {
-    const [users,setUsers] = useState([])
+const Sidebar: React.FC<SidebarProps> = ({setRecipientUser}) => {
+    const [users,setUsers] = useState<User[]>([])
 
 
     useEffect(() => {
@@ -11,7 +13,7 @@ const Sidebar = ({setRecipientUser}) => {
         const user = localStorage.getItem("user")
 
         axios
-            .get('http://localhost:5000/api/users', {
+            .get<User[]>('http://localhost:5000/api/users', {
                 headers: {
                     'Content-Type': 'application/json',
                     'x-access-token': token,
@@ -22,7 +24,7 @@ const Sidebar = ({setRecipientUser}) => {
             })
     }, []);
 
-    const handleSetRecipientUser = (user) =>{
+    const handleSetRecipientUser = (user: string): void =>{
         setRecipientUser(user)
     }
 

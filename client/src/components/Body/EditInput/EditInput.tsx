@@ -1,4 +1,6 @@
-const EditInput = ({editedContent,setEditedContent}) => {
+import {EditInputProps} from "../../../types/BodyComponents/EditInputProps.interface.ts";
+import React from "react";
+const EditInput: React.FC<EditInputProps> = ({editedContent,setEditedContent}) => {
     return (
         <input
             type="text"

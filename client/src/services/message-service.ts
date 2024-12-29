@@ -1,11 +1,21 @@
 import axios from "axios";
+import React from "react";
 
-export const handleSend = async (e,message,recipientUser,setMessage,loadMessages, files,setFiles)=>{
+export const handleSend = async (
+    e: React.FormEvent,
+    message: string,
+    recipientUser: string,
+    setMessage: (value: string) => void,
+    loadMessages: () => void,
+    files: File[],
+    setFiles: (files: File[]) => void
+): Promise<void>=>{
     e.preventDefault()
     const token = localStorage.getItem('token') || '';
 
     const formData = new FormData();
-    formData.append("sender_name",localStorage.getItem('user'))
+    const senderName = localStorage.getItem('user') || '';
+    formData.append("sender_name",senderName)
     formData.append("content", message)
     formData.append("recipient_name", recipientUser)
     files.forEach((file) => {
@@ -28,7 +38,10 @@ export const handleSend = async (e,message,recipientUser,setMessage,loadMessages
 }
 
 
-export const handleDeleteMessage = async (id,loadMessages)=>{
+export const handleDeleteMessage = async (
+    id: string,
+    loadMessages: () => void
+): Promise<void> =>{
     const token = localStorage.getItem('token') || '';
     await axios.delete(
         `http://localhost:5000/api/messages/${id}`,
@@ -41,7 +54,11 @@ export const handleDeleteMessage = async (id,loadMessages)=>{
     );
     loadMessages();
 }
-export const handleEditMessage = async (id,content,loadMessages)=>{
+export const handleEditMessage = async (
+    id: string,
+    content: string,
+    loadMessages: () => void
+): Promise<void>=>{
     const token = localStorage.getItem('token') || '';
     await axios.patch(
         `http://localhost:5000/api/messages/${id}`,

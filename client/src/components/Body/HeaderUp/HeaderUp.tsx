@@ -1,5 +1,6 @@
-
-const HeaderUp = ({handleLeave}) => {
+import {HeaderUpProps} from "../../../types/BodyComponents/HeaderUpProps.ts";
+import React from "react";
+const HeaderUp: React.FC<HeaderUpProps> = ({handleLeave}) => {
     return (
         <header className="sticky top-0 bg-gray-200 p-4 shadow-md z-10">
             <div className="flex justify-between items-center">

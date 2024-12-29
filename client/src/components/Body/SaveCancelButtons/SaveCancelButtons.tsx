@@ -1,5 +1,7 @@
+import {SaveCancelButtonsProps} from "../../../types/BodyComponents/SaveCancelButtonsProps.interface.ts";
+import React from "react";
 
-const SaveCancelButtons = ({saveEdit,setIsEditing,setEditedContent,element}) => {
+const SaveCancelButtons: React.FC<SaveCancelButtonsProps> = ({saveEdit,setIsEditing,setEditedContent,element}) => {
     return (
         <div>
             <div className="flex space-x-2 mt-2">

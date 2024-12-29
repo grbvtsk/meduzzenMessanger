@@ -1,22 +1,23 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {handleSend} from "../../services/message-service.ts";
+import {MessageBlockProps} from "../../types/MessageBlockProps.interface.ts";
 
+const MessageBlock: React.FC<MessageBlockProps> = ({recipientUser,loadMessages}) => {
 
-const MessageBlock = ({recipientUser,loadMessages}) => {
-
-    const [message,setMessage] = useState<String>('')
-    const [files, setFiles] = useState([]);
-    const handleFileChange = (event) => {
-        const selectedFiles = Array.from(event.target.files);
-        setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    const [message,setMessage] = useState<string>('')
+    const [files, setFiles] = useState<File[]>([]);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const selectedFiles = Array.from(event.target.files);
+            setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+        }
     };
-    const handleFileRemove = (index) => {
+    const handleFileRemove = (index: number):void => {
         setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
     return (
         <div className="bg-gray-100 p-3 shadow-md w-full rounded-lg flex flex-col space-y-2">
-            {/* Відображення вибраних файлів */}
             {files.length > 0 && (
                 <div
                     className="bg-white border border-gray-300 rounded-md shadow-md p-2 max-h-32 w-full overflow-y-auto text-sm">
@@ -41,7 +42,6 @@ const MessageBlock = ({recipientUser,loadMessages}) => {
             )}
 
             <div className="flex items-center space-x-2">
-                {/* Поле введення повідомлення */}
                 <input
                     type="text"
                     placeholder="Type your message..."
@@ -50,7 +50,6 @@ const MessageBlock = ({recipientUser,loadMessages}) => {
                     onChange={(e) => setMessage(e.target.value)}
                 />
 
-                {/* Кнопка вибору файлів */}
                 <div className="relative">
                     <label
                         htmlFor="file-upload"
