@@ -2,3 +2,4 @@
 2) run "npx prisma generate" to generate DB
 3) "npm start" for server
 4) run "npm run dev" for client
+hello
