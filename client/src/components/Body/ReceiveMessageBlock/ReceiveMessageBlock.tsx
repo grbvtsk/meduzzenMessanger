@@ -2,8 +2,11 @@ import FilesContainer from "../FilesContainer";
 import React from "react";
 import {ReceiveMessageBlockProps} from "../../../types/BodyComponents/ReceiveMessageBlock.interface.ts";
 import magicStick from "../../../../public/magic-stick.svg";
+import { summarizeMessage } from "../../../services/message-service.ts";
 
 const ReceiveMessageBlock: React.FC<ReceiveMessageBlockProps> = ({element}) => {
+
+
 
     return (
         <div className="flex flex-col items-start group" key={element.id}>
@@ -11,7 +14,7 @@ const ReceiveMessageBlock: React.FC<ReceiveMessageBlockProps> = ({element}) => {
             <div
                 className="flex items-center bg-blue-100 p-3 rounded-md shadow-sm max-w-xs relative mb-1">
                 <button
-                    onClick={() => {console.log("hello")}}
+                    onClick={()=> summarizeMessage(element.content)}
                     className="text-white text-s px-3 py-1 rounded-lg bg-purple-600 hover:bg-purple-300
                         transition-all duration-200 ease-in-out opacity-0 group-hover:opacity-100
                         absolute right-[-160px]"

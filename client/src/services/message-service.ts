@@ -74,3 +74,21 @@ export const handleEditMessage = async (
     );
     loadMessages();
 }
+
+export const summarizeMessage = async(content:string):Promise<void>=>{
+    const token = localStorage.getItem('token') || '';
+    const message = await axios.post(
+        `http://localhost:5000/api/summarize`,
+        {
+            content: content,
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': token,
+            },
+        }
+    );
+    console.log(message.data);
+    
+}
