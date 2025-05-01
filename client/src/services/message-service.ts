@@ -75,7 +75,7 @@ export const handleEditMessage = async (
     loadMessages();
 }
 
-export const summarizeMessage = async(content:string):Promise<void>=>{
+export const summarizeMessage = async(content:string):Promise<string>=>{
     const token = localStorage.getItem('token') || '';
     const message = await axios.post(
         `http://localhost:5000/api/summarize`,
@@ -89,6 +89,6 @@ export const summarizeMessage = async(content:string):Promise<void>=>{
             },
         }
     );
-    console.log(message.data);
+    return message.data
     
 }
