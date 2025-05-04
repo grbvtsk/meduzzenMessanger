@@ -40,18 +40,33 @@ const ChatPage: React.FC = () => {
       <Sidebar setRecipientUser={setRecipientUser} />
       <main className="flex-1 flex flex-col ">
         <HeaderUp handleLeave={handleLeave} />
-        <div className="flex-1 overflow-y-auto">
-          <Body
-            messages={messages}
-            recipientUser={recipientUser}
-            loadMessages={loadMessages}
-          />
-        </div>
-
-        <MessageBlock
-          recipientUser={recipientUser}
-          loadMessages={loadMessages}
-        />
+        {recipientUser ? (
+          <>
+            <div className="flex-1 overflow-y-auto">
+              <Body
+                messages={messages}
+                recipientUser={recipientUser}
+                loadMessages={loadMessages}
+              />
+            </div>
+            <MessageBlock
+              recipientUser={recipientUser}
+              loadMessages={loadMessages}
+            />
+          </>
+        ) : (
+          <div className="flex-1 overflow-y-auto flex items-center justify-center bg-gray-50">
+            <div className="text-center px-6">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+                Welcome to Messenger
+              </h2>
+              <p className="text-gray-500">
+                This messenger can summarize text. <br /> Select a chat to start
+                messaging.
+              </p>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
