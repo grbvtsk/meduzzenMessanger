@@ -16,6 +16,10 @@ const ReceiveMessageBlock: React.FC<ReceiveMessageBlockProps> = ({
 
   const handleSummarize = async () => {
     try {
+      if (element.content.length < 10) {
+        alert("Too short message to summarize");
+        return;
+      }
       setIsLoading(true);
       const result = await summarizeMessage(element.content);
       setDisplayedMessage(result);
