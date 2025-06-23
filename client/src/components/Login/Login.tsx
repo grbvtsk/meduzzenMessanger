@@ -17,7 +17,7 @@ function Login() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+            const response = await axios.post("http://localhost:5001/api/auth/login", formData);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user",response.data.name)
             alert("Login successful!");

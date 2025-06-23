@@ -20,7 +20,7 @@ const Register = ()=>{
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/register", formData);
+            const response = await axios.post("http://localhost:5001/api/auth/register", formData);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user",response.data.name)
             alert("Sign up is successful!");

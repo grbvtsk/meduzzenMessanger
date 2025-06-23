@@ -13,7 +13,7 @@ const Sidebar: React.FC<SidebarProps> = ({setRecipientUser}) => {
         const user = localStorage.getItem("user")
 
         axios
-            .get<User[]>('http://localhost:5000/api/users', {
+            .get<User[]>('http://localhost:5001/api/users', {
                 headers: {
                     'Content-Type': 'application/json',
                     'x-access-token': token,

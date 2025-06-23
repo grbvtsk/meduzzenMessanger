@@ -14,7 +14,7 @@ const ChatPage: React.FC = () => {
   const loadMessages = async (): Promise<void> => {
     const token = localStorage.getItem("token") || "";
     const response = await axios.get<Message[]>(
-      "http://localhost:5000/api/messages",
+      "http://localhost:5001/api/messages",
       {
         headers: {
           "Content-Type": "application/json",

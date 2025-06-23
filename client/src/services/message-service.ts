@@ -24,7 +24,7 @@ export const handleSend = async (
 
     if(message.trim() && localStorage.getItem('user')){
         await axios.post(
-            'http://localhost:5000/api/messages', formData, {
+            'http://localhost:5001/api/messages', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'x-access-token': token,
@@ -44,7 +44,7 @@ export const handleDeleteMessage = async (
 ): Promise<void> =>{
     const token = localStorage.getItem('token') || '';
     await axios.delete(
-        `http://localhost:5000/api/messages/${id}`,
+        `http://localhost:5001/api/messages/${id}`,
         {
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const handleEditMessage = async (
 ): Promise<void>=>{
     const token = localStorage.getItem('token') || '';
     await axios.patch(
-        `http://localhost:5000/api/messages/${id}`,
+        `http://localhost:5001/api/messages/${id}`,
         {
             content: content,
         },
@@ -78,7 +78,7 @@ export const handleEditMessage = async (
 export const summarizeMessage = async(content:string):Promise<string>=>{
     const token = localStorage.getItem('token') || '';
     const message = await axios.post(
-        `http://localhost:5000/api/summarize`,
+        `http://localhost:5001/api/summarize`,
         {
             content: content,
         },
