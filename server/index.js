@@ -17,5 +17,5 @@ app.use("/api/summarize", summarizeRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.listen(PORT, () => {
-  console.log("App started");
+  console.log("app started");
 });
